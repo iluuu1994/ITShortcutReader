@@ -9,16 +9,15 @@
 #import "ITShortcutReader.h"
 #import "MASShortcut.h"
 
-#define kTextColor [NSColor colorWithDeviceWhite:0.4 alpha:1.0]
-#define kBackgroundColor [NSColor colorWithDeviceWhite:0.9 alpha:1.0]
+#define kTextColor [NSColor colorWithDeviceWhite:0.55f alpha:1.f]
 #define kFontSize 14.f
 #define kTextFieldHeight 19.f
 #define kTextFieldMargin 6.f
-#define kKeyViewMargin 10.0f
+#define kKeyViewMargin 10.f
 #define kKeyViewSize 24.f
 
-#define kInactiveStringValue @"Press to record"
-#define kActiveStringValue @"Type to record"
+#define kInactiveStringValue @"Create shortcut"
+#define kActiveStringValue @"Recording..."
 
 typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, NSUInteger modifierFlags);
 
@@ -59,7 +58,7 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     
     
     // TextFields
-    NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 16);
+    NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 16.f);
     _textField = [[NSTextField alloc] initWithFrame:(NSRect){
         .origin.x =  (NSWidth(self.bounds)/2) - (textFieldSize.width/2),
         .origin.y =  (NSHeight(self.bounds)/2)- (textFieldSize.height/2),
@@ -74,11 +73,11 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     [_textField setEditable:NO];
     [_textField setBezeled:NO];
     [_textField setDrawsBackground:NO];
-    [_textField setTextColor:[NSColor colorWithDeviceWhite:0.45 alpha:1.f]];
+    [_textField setTextColor:[NSColor colorWithDeviceWhite:0.45f alpha:1.f]];
     [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
     _textField.layer.shadowOpacity = 0.6f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.0].CGColor;
+    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
     _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
     _textField.layer.shadowRadius = 0.f;
     
@@ -144,7 +143,6 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     // Init layers
     self.wantsLayer = YES;
     _hostedLayer = [CALayer layer];
-    //_hostedLayer.backgroundColor = kBackgroundColor.CGColor;
     _hostedLayer.delegate = self;
     self.layer = _hostedLayer;
     
@@ -180,7 +178,7 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
         [_labelWrapper addSubview:*textField];
         
         (*textField).layer.shadowOpacity = 0.6f;
-        (*textField).layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.0].CGColor;
+        (*textField).layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
         (*textField).layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
         (*textField).layer.shadowRadius = 0.f;
         
@@ -326,8 +324,8 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     {
         [NSAnimationContext currentContext].duration = 0.2f;
         
-        self.inactiveLabel.animator.alphaValue = 1.0;
-        self.activeLabel.animator.alphaValue = 0.0;
+        self.inactiveLabel.animator.alphaValue = 1.f;
+        self.activeLabel.animator.alphaValue = 0.f;
         
         self.cancelButton.animator.alphaValue = (self.keyCode != NSNotFound)?1.f:0.f;
     }
@@ -424,18 +422,18 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     {
         for (ITShortcutReaderKeyView *keyView in @[ self.controlKeyView, self.altKeyView, self.shiftKeyView, self.commandKeyView, self.keyCodeView ]) {
             if ([keyView evaluateWithType:eventType keyCode:keyCode modifierFlags:modifierFlags]) {
-                keyView.animator.alphaValue = 1.0f;
+                keyView.animator.alphaValue = 1.f;
                 keyView.animator.frame = (NSRect){ .size = keyView.frame.size, .origin.y = keyView.frame.origin.y, .origin.x = x };
                 x += keyView.bounds.size.width + kKeyViewMargin;
                 
                 count++;
             } else {
-                keyView.animator.alphaValue = 0.0f;
+                keyView.animator.alphaValue = 0.f;
                 keyView.animator.frame = (NSRect){ .size = keyView.frame.size, .origin.y = keyView.frame.origin.y, .origin.x = kKeyViewMargin };
             }
         }
         
-        self.labelWrapper.animator.alphaValue = (count > 0)?0.0f:1.0f;
+        self.labelWrapper.animator.alphaValue = (count > 0)?0.f:1.f;
     }
     [NSAnimationContext endGrouping];
 }
