@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9142959818847B8C00E3F181 /* shortcutReaderKey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9142959618847B8C00E3F181 /* shortcutReaderKey.png */; };
+		9142959918847B8C00E3F181 /* shortcutReaderKey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9142959718847B8C00E3F181 /* shortcutReaderKey@2x.png */; };
+		914B8A4D18832B42001F012A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914B8A4C18832B42001F012A /* Carbon.framework */; };
+		914B8A4F18832B47001F012A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914B8A4E18832B47001F012A /* CoreServices.framework */; };
+		91777A95188491BB00FFBC83 /* MASShortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 91777A94188491BB00FFBC83 /* MASShortcut.m */; };
+		91A06EA11884856B003D8E47 /* shortcutReaderCancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 91A06E9F1884856B003D8E47 /* shortcutReaderCancel.png */; };
+		91A06EA21884856B003D8E47 /* shortcutReaderCancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91A06EA01884856B003D8E47 /* shortcutReaderCancel@2x.png */; };
+		91D49CD61882F23100B2F204 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D49CD51882F23100B2F204 /* Cocoa.framework */; };
+		91D49CE01882F23100B2F204 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91D49CDE1882F23100B2F204 /* InfoPlist.strings */; };
+		91D49CE21882F23100B2F204 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D49CE11882F23100B2F204 /* main.m */; };
+		91D49CE61882F23100B2F204 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 91D49CE41882F23100B2F204 /* Credits.rtf */; };
+		91D49CE91882F23100B2F204 /* ITAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D49CE81882F23100B2F204 /* ITAppDelegate.m */; };
+		91D49CEC1882F23100B2F204 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D49CEA1882F23100B2F204 /* MainMenu.xib */; };
+		91D49CEE1882F23100B2F204 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91D49CED1882F23100B2F204 /* Images.xcassets */; };
+		91D49CF51882F23100B2F204 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D49CF41882F23100B2F204 /* XCTest.framework */; };
+		91D49CF61882F23100B2F204 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D49CD51882F23100B2F204 /* Cocoa.framework */; };
+		91D49CFE1882F23100B2F204 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91D49CFC1882F23100B2F204 /* InfoPlist.strings */; };
+		91D49D001882F23100B2F204 /* ITShortcutReader_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D49CFF1882F23100B2F204 /* ITShortcutReader_DemoTests.m */; };
+		91D49D0C1882F27000B2F204 /* ITShortcutReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D49D0B1882F27000B2F204 /* ITShortcutReader.m */; };
+		91D49D0E1882F68E00B2F204 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D49D0D1882F68E00B2F204 /* QuartzCore.framework */; };
+		91D49D1218830E3F00B2F204 /* shortcutReader.png in Resources */ = {isa = PBXBuildFile; fileRef = 91D49D1018830E3F00B2F204 /* shortcutReader.png */; };
+		91D49D1318830E3F00B2F204 /* shortcutReader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91D49D1118830E3F00B2F204 /* shortcutReader@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91D49CF71882F23100B2F204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91D49CCA1882F23100B2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91D49CD11882F23100B2F204;
+			remoteInfo = "ITShortcutReader Demo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9142959618847B8C00E3F181 /* shortcutReaderKey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shortcutReaderKey.png; path = ../../Resources/shortcutReaderKey.png; sourceTree = "<group>"; };
+		9142959718847B8C00E3F181 /* shortcutReaderKey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shortcutReaderKey@2x.png"; path = "../../Resources/shortcutReaderKey@2x.png"; sourceTree = "<group>"; };
+		914B8A4C18832B42001F012A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		914B8A4E18832B47001F012A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		91777A93188491BB00FFBC83 /* MASShortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASShortcut.h; sourceTree = "<group>"; };
+		91777A94188491BB00FFBC83 /* MASShortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASShortcut.m; sourceTree = "<group>"; };
+		91A06E9F1884856B003D8E47 /* shortcutReaderCancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shortcutReaderCancel.png; path = ../../Resources/shortcutReaderCancel.png; sourceTree = "<group>"; };
+		91A06EA01884856B003D8E47 /* shortcutReaderCancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shortcutReaderCancel@2x.png"; path = "../../Resources/shortcutReaderCancel@2x.png"; sourceTree = "<group>"; };
+		91D49CD21882F23100B2F204 /* ITShortcutReader Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ITShortcutReader Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91D49CD51882F23100B2F204 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		91D49CD81882F23100B2F204 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		91D49CD91882F23100B2F204 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		91D49CDA1882F23100B2F204 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		91D49CDD1882F23100B2F204 /* ITShortcutReader Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ITShortcutReader Demo-Info.plist"; sourceTree = "<group>"; };
+		91D49CDF1882F23100B2F204 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		91D49CE11882F23100B2F204 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		91D49CE31882F23100B2F204 /* ITShortcutReader Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ITShortcutReader Demo-Prefix.pch"; sourceTree = "<group>"; };
+		91D49CE51882F23100B2F204 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		91D49CE71882F23100B2F204 /* ITAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITAppDelegate.h; sourceTree = "<group>"; };
+		91D49CE81882F23100B2F204 /* ITAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITAppDelegate.m; sourceTree = "<group>"; };
+		91D49CEB1882F23100B2F204 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		91D49CED1882F23100B2F204 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		91D49CF31882F23100B2F204 /* ITShortcutReader DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ITShortcutReader DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91D49CF41882F23100B2F204 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		91D49CFB1882F23100B2F204 /* ITShortcutReader DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ITShortcutReader DemoTests-Info.plist"; sourceTree = "<group>"; };
+		91D49CFD1882F23100B2F204 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		91D49CFF1882F23100B2F204 /* ITShortcutReader_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITShortcutReader_DemoTests.m; sourceTree = "<group>"; };
+		91D49D0A1882F27000B2F204 /* ITShortcutReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITShortcutReader.h; path = ../../Classes/ITShortcutReader.h; sourceTree = "<group>"; };
+		91D49D0B1882F27000B2F204 /* ITShortcutReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITShortcutReader.m; path = ../../Classes/ITShortcutReader.m; sourceTree = "<group>"; };
+		91D49D0D1882F68E00B2F204 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		91D49D1018830E3F00B2F204 /* shortcutReader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shortcutReader.png; path = ../../Resources/shortcutReader.png; sourceTree = "<group>"; };
+		91D49D1118830E3F00B2F204 /* shortcutReader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shortcutReader@2x.png"; path = "../../Resources/shortcutReader@2x.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		91D49CCF1882F23100B2F204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				914B8A4F18832B47001F012A /* CoreServices.framework in Frameworks */,
+				914B8A4D18832B42001F012A /* Carbon.framework in Frameworks */,
+				91D49D0E1882F68E00B2F204 /* QuartzCore.framework in Frameworks */,
+				91D49CD61882F23100B2F204 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D49CF01882F23100B2F204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D49CF61882F23100B2F204 /* Cocoa.framework in Frameworks */,
+				91D49CF51882F23100B2F204 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		91D49CC91882F23100B2F204 = {
+			isa = PBXGroup;
+			children = (
+				91D49CDB1882F23100B2F204 /* ITShortcutReader Demo */,
+				91D49CF91882F23100B2F204 /* ITShortcutReader DemoTests */,
+				91D49CD41882F23100B2F204 /* Frameworks */,
+				91D49CD31882F23100B2F204 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		91D49CD31882F23100B2F204 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				91D49CD21882F23100B2F204 /* ITShortcutReader Demo.app */,
+				91D49CF31882F23100B2F204 /* ITShortcutReader DemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		91D49CD41882F23100B2F204 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				914B8A4E18832B47001F012A /* CoreServices.framework */,
+				914B8A4C18832B42001F012A /* Carbon.framework */,
+				91D49D0D1882F68E00B2F204 /* QuartzCore.framework */,
+				91D49CD51882F23100B2F204 /* Cocoa.framework */,
+				91D49CF41882F23100B2F204 /* XCTest.framework */,
+				91D49CD71882F23100B2F204 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		91D49CD71882F23100B2F204 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				91D49CD81882F23100B2F204 /* AppKit.framework */,
+				91D49CD91882F23100B2F204 /* CoreData.framework */,
+				91D49CDA1882F23100B2F204 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		91D49CDB1882F23100B2F204 /* ITShortcutReader Demo */ = {
+			isa = PBXGroup;
+			children = (
+				91D49D091882F25100B2F204 /* Classes */,
+				91D49D0F18830E0B00B2F204 /* Resources */,
+				91D49CE71882F23100B2F204 /* ITAppDelegate.h */,
+				91D49CE81882F23100B2F204 /* ITAppDelegate.m */,
+				91D49CEA1882F23100B2F204 /* MainMenu.xib */,
+				91D49CED1882F23100B2F204 /* Images.xcassets */,
+				91D49CDC1882F23100B2F204 /* Supporting Files */,
+			);
+			path = "ITShortcutReader Demo";
+			sourceTree = "<group>";
+		};
+		91D49CDC1882F23100B2F204 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				91D49CDD1882F23100B2F204 /* ITShortcutReader Demo-Info.plist */,
+				91D49CDE1882F23100B2F204 /* InfoPlist.strings */,
+				91D49CE11882F23100B2F204 /* main.m */,
+				91D49CE31882F23100B2F204 /* ITShortcutReader Demo-Prefix.pch */,
+				91D49CE41882F23100B2F204 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91D49CF91882F23100B2F204 /* ITShortcutReader DemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				91D49CFF1882F23100B2F204 /* ITShortcutReader_DemoTests.m */,
+				91D49CFA1882F23100B2F204 /* Supporting Files */,
+			);
+			path = "ITShortcutReader DemoTests";
+			sourceTree = "<group>";
+		};
+		91D49CFA1882F23100B2F204 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				91D49CFB1882F23100B2F204 /* ITShortcutReader DemoTests-Info.plist */,
+				91D49CFC1882F23100B2F204 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91D49D091882F25100B2F204 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				91D49D0A1882F27000B2F204 /* ITShortcutReader.h */,
+				91D49D0B1882F27000B2F204 /* ITShortcutReader.m */,
+				91777A93188491BB00FFBC83 /* MASShortcut.h */,
+				91777A94188491BB00FFBC83 /* MASShortcut.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		91D49D0F18830E0B00B2F204 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				91D49D1018830E3F00B2F204 /* shortcutReader.png */,
+				91D49D1118830E3F00B2F204 /* shortcutReader@2x.png */,
+				9142959618847B8C00E3F181 /* shortcutReaderKey.png */,
+				9142959718847B8C00E3F181 /* shortcutReaderKey@2x.png */,
+				91A06E9F1884856B003D8E47 /* shortcutReaderCancel.png */,
+				91A06EA01884856B003D8E47 /* shortcutReaderCancel@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		91D49CD11882F23100B2F204 /* ITShortcutReader Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91D49D031882F23100B2F204 /* Build configuration list for PBXNativeTarget "ITShortcutReader Demo" */;
+			buildPhases = (
+				91D49CCE1882F23100B2F204 /* Sources */,
+				91D49CCF1882F23100B2F204 /* Frameworks */,
+				91D49CD01882F23100B2F204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ITShortcutReader Demo";
+			productName = "ITShortcutReader Demo";
+			productReference = 91D49CD21882F23100B2F204 /* ITShortcutReader Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		91D49CF21882F23100B2F204 /* ITShortcutReader DemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91D49D061882F23100B2F204 /* Build configuration list for PBXNativeTarget "ITShortcutReader DemoTests" */;
+			buildPhases = (
+				91D49CEF1882F23100B2F204 /* Sources */,
+				91D49CF01882F23100B2F204 /* Frameworks */,
+				91D49CF11882F23100B2F204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91D49CF81882F23100B2F204 /* PBXTargetDependency */,
+			);
+			name = "ITShortcutReader DemoTests";
+			productName = "ITShortcutReader DemoTests";
+			productReference = 91D49CF31882F23100B2F204 /* ITShortcutReader DemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91D49CCA1882F23100B2F204 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = IT;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Ilija Tovilo";
+				TargetAttributes = {
+					91D49CF21882F23100B2F204 = {
+						TestTargetID = 91D49CD11882F23100B2F204;
+					};
+				};
+			};
+			buildConfigurationList = 91D49CCD1882F23100B2F204 /* Build configuration list for PBXProject "ITShortcutReader Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 91D49CC91882F23100B2F204;
+			productRefGroup = 91D49CD31882F23100B2F204 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				91D49CD11882F23100B2F204 /* ITShortcutReader Demo */,
+				91D49CF21882F23100B2F204 /* ITShortcutReader DemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		91D49CD01882F23100B2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D49CE01882F23100B2F204 /* InfoPlist.strings in Resources */,
+				9142959818847B8C00E3F181 /* shortcutReaderKey.png in Resources */,
+				91D49CEE1882F23100B2F204 /* Images.xcassets in Resources */,
+				91A06EA21884856B003D8E47 /* shortcutReaderCancel@2x.png in Resources */,
+				91A06EA11884856B003D8E47 /* shortcutReaderCancel.png in Resources */,
+				9142959918847B8C00E3F181 /* shortcutReaderKey@2x.png in Resources */,
+				91D49CE61882F23100B2F204 /* Credits.rtf in Resources */,
+				91D49D1218830E3F00B2F204 /* shortcutReader.png in Resources */,
+				91D49CEC1882F23100B2F204 /* MainMenu.xib in Resources */,
+				91D49D1318830E3F00B2F204 /* shortcutReader@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D49CF11882F23100B2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D49CFE1882F23100B2F204 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		91D49CCE1882F23100B2F204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91777A95188491BB00FFBC83 /* MASShortcut.m in Sources */,
+				91D49D0C1882F27000B2F204 /* ITShortcutReader.m in Sources */,
+				91D49CE21882F23100B2F204 /* main.m in Sources */,
+				91D49CE91882F23100B2F204 /* ITAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D49CEF1882F23100B2F204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D49D001882F23100B2F204 /* ITShortcutReader_DemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		91D49CF81882F23100B2F204 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91D49CD11882F23100B2F204 /* ITShortcutReader Demo */;
+			targetProxy = 91D49CF71882F23100B2F204 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		91D49CDE1882F23100B2F204 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91D49CDF1882F23100B2F204 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		91D49CE41882F23100B2F204 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91D49CE51882F23100B2F204 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		91D49CEA1882F23100B2F204 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91D49CEB1882F23100B2F204 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		91D49CFC1882F23100B2F204 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91D49CFD1882F23100B2F204 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		91D49D011882F23100B2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		91D49D021882F23100B2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		91D49D041882F23100B2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ITShortcutReader Demo/ITShortcutReader Demo-Prefix.pch";
+				INFOPLIST_FILE = "ITShortcutReader Demo/ITShortcutReader Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		91D49D051882F23100B2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ITShortcutReader Demo/ITShortcutReader Demo-Prefix.pch";
+				INFOPLIST_FILE = "ITShortcutReader Demo/ITShortcutReader Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		91D49D071882F23100B2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ITShortcutReader Demo.app/Contents/MacOS/ITShortcutReader Demo";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ITShortcutReader Demo/ITShortcutReader Demo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ITShortcutReader DemoTests/ITShortcutReader DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		91D49D081882F23100B2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ITShortcutReader Demo.app/Contents/MacOS/ITShortcutReader Demo";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ITShortcutReader Demo/ITShortcutReader Demo-Prefix.pch";
+				INFOPLIST_FILE = "ITShortcutReader DemoTests/ITShortcutReader DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		91D49CCD1882F23100B2F204 /* Build configuration list for PBXProject "ITShortcutReader Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91D49D011882F23100B2F204 /* Debug */,
+				91D49D021882F23100B2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91D49D031882F23100B2F204 /* Build configuration list for PBXNativeTarget "ITShortcutReader Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91D49D041882F23100B2F204 /* Debug */,
+				91D49D051882F23100B2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91D49D061882F23100B2F204 /* Build configuration list for PBXNativeTarget "ITShortcutReader DemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91D49D071882F23100B2F204 /* Debug */,
+				91D49D081882F23100B2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91D49CCA1882F23100B2F204 /* Project object */;
+}
