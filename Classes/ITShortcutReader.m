@@ -7,6 +7,7 @@
 //
 
 #import "ITShortcutReader.h"
+#import "ITShortcutReaderKeyView.h"
 #import "MASShortcut.h"
 
 #define kTextColor [NSColor colorWithDeviceWhite:0.55f alpha:1.f]
@@ -18,89 +19,6 @@
 
 #define kInactiveStringValue @"Create shortcut"
 #define kActiveStringValue @"Recording..."
-
-typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, NSUInteger modifierFlags);
-
-@interface ITShortcutReaderKeyView : NSView
-@property (strong) CALayer *hostedLayer;
-@property (nonatomic) NSString *stringValue;
-@property (nonatomic) NSTextField *textField;
-@property (strong) ITKeyEvaluationBlock evaluationBlock;
-- (BOOL)evaluateWithType:(NSEventType)eventType
-                 keyCode:(NSUInteger)keyCode
-           modifierFlags:(NSUInteger)modifierFlags;
-@end
-
-@implementation ITShortcutReaderKeyView
-
-- (id)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    if (!self) return nil;
-    
-    self.wantsLayer = YES;
-    
-    _hostedLayer = [CALayer layer];
-    NSImage *backgroundImage = [NSImage imageNamed:@"shortcutReaderKey"];
-    _hostedLayer.delegate = self;
-    _hostedLayer.contents = backgroundImage;
-    
-    _hostedLayer.contentsCenter = (CGRect){
-        .origin.x = 4.f / backgroundImage.size.width,
-        .origin.y = 0.f  / backgroundImage.size.height,
-        .size.width = 16.f / backgroundImage.size.width,
-        .size.height = 24.f / backgroundImage.size.height,
-    };
-    if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)]) {
-        _hostedLayer.contentsScale = [NSScreen mainScreen].backingScaleFactor;
-    }
-    
-    self.layer = _hostedLayer;
-    
-    
-    // TextFields
-    NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 16.f);
-    _textField = [[NSTextField alloc] initWithFrame:(NSRect){
-        .origin.x =  (NSWidth(self.bounds)/2) - (textFieldSize.width/2),
-        .origin.y =  (NSHeight(self.bounds)/2)- (textFieldSize.height/2),
-        .size = textFieldSize
-    }];
-    
-    // We add it already, so it's layer backed when editing
-    [self addSubview:_textField];
-    
-    _textField.alignment = NSCenterTextAlignment;
-    [_textField setSelectable:NO];
-    [_textField setEditable:NO];
-    [_textField setBezeled:NO];
-    [_textField setDrawsBackground:NO];
-    [_textField setTextColor:[NSColor colorWithDeviceWhite:0.45f alpha:1.f]];
-    [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    
-    _textField.layer.shadowOpacity = 0.6f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
-    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
-    _textField.layer.shadowRadius = 0.f;
-    
-    return self;
-}
-
-- (NSString *)stringValue {
-    return self.textField.stringValue;
-}
-
-- (void)setStringValue:(NSString *)stringValue {
-    self.textField.stringValue = stringValue;
-}
-
-- (BOOL)evaluateWithType:(NSEventType)eventType keyCode:(NSUInteger)keyCode modifierFlags:(NSUInteger)modifierFlags {
-    if (self.evaluationBlock) return self.evaluationBlock(eventType, keyCode, modifierFlags);
-    
-    return NO;
-}
-
-@end
-
-
 
 
 @interface ITShortcutReader ()
@@ -301,7 +219,20 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
 - (BOOL)becomeFirstResponder {
     // Overwrites the current user input
     [self updateKeyViews:nil fromInput:YES];
+    [self shortcutReaderDidBecomeActive];
     
+    return YES;
+}
+
+- (BOOL)resignFirstResponder {
+    // Overwrites the current user input
+    [self updateKeyViews:nil fromInput:NO];
+    [self shortcutReaderDidBecomeInactive];
+    
+    return YES;
+}
+
+- (void)shortcutReaderDidBecomeActive {
     [NSAnimationContext beginGrouping];
     {
         [NSAnimationContext currentContext].duration = 0.2f;
@@ -312,14 +243,9 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
         self.cancelButton.animator.alphaValue = 1.f;
     }
     [NSAnimationContext endGrouping];
-    
-    return YES;
 }
 
-- (BOOL)resignFirstResponder {
-    // Overwrites the current user input
-    [self updateKeyViews:nil fromInput:NO];
-    
+- (void)shortcutReaderDidBecomeInactive {
     [NSAnimationContext beginGrouping];
     {
         [NSAnimationContext currentContext].duration = 0.2f;
@@ -330,8 +256,6 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
         self.cancelButton.animator.alphaValue = (self.keyCode != NSNotFound)?1.f:0.f;
     }
     [NSAnimationContext endGrouping];
-    
-    return YES;
 }
 
 - (BOOL)hasFirstResponder {
@@ -438,23 +362,20 @@ typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, N
     [NSAnimationContext endGrouping];
 }
 
+
+
+#pragma mark - Others
+
 - (IBAction)cancel:(id)sender {
     if (self.hasFirstResponder) {
-        // Resign the first responder
         [self.window makeFirstResponder:nil];
     } else {
         [self saveEvent:nil permanently:YES];
-        
-        // Ugly fix to fade out the cancel button
-        [self resignFirstResponder];
+        [self shortcutReaderDidBecomeInactive];
     }
     
     [self updateKeyViews:nil fromInput:NO];
 }
-
-
-
-#pragma mark - Others
 
 // The NSTextField can block the triggering of mouseDown:.
 - (NSView *)hitTest:(NSPoint)aPoint {

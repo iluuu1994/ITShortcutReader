@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		911B6CDB188499FC00EC6272 /* ITShortcutReaderKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 911B6CDA188499FC00EC6272 /* ITShortcutReaderKeyView.m */; };
 		9142959818847B8C00E3F181 /* shortcutReaderKey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9142959618847B8C00E3F181 /* shortcutReaderKey.png */; };
 		9142959918847B8C00E3F181 /* shortcutReaderKey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9142959718847B8C00E3F181 /* shortcutReaderKey@2x.png */; };
 		914B8A4D18832B42001F012A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914B8A4C18832B42001F012A /* Carbon.framework */; };
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		911B6CD9188499FC00EC6272 /* ITShortcutReaderKeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITShortcutReaderKeyView.h; sourceTree = "<group>"; };
+		911B6CDA188499FC00EC6272 /* ITShortcutReaderKeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITShortcutReaderKeyView.m; sourceTree = "<group>"; };
 		9142959618847B8C00E3F181 /* shortcutReaderKey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shortcutReaderKey.png; path = ../../Resources/shortcutReaderKey.png; sourceTree = "<group>"; };
 		9142959718847B8C00E3F181 /* shortcutReaderKey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shortcutReaderKey@2x.png"; path = "../../Resources/shortcutReaderKey@2x.png"; sourceTree = "<group>"; };
 		914B8A4C18832B42001F012A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -191,6 +194,8 @@
 			children = (
 				91D49D0A1882F27000B2F204 /* ITShortcutReader.h */,
 				91D49D0B1882F27000B2F204 /* ITShortcutReader.m */,
+				911B6CD9188499FC00EC6272 /* ITShortcutReaderKeyView.h */,
+				911B6CDA188499FC00EC6272 /* ITShortcutReaderKeyView.m */,
 				91777A93188491BB00FFBC83 /* MASShortcut.h */,
 				91777A94188491BB00FFBC83 /* MASShortcut.m */,
 			);
@@ -315,6 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				911B6CDB188499FC00EC6272 /* ITShortcutReaderKeyView.m in Sources */,
 				91777A95188491BB00FFBC83 /* MASShortcut.m in Sources */,
 				91D49D0C1882F27000B2F204 /* ITShortcutReader.m in Sources */,
 				91D49CE21882F23100B2F204 /* main.m in Sources */,
