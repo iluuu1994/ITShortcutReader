@@ -660,6 +660,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="0lM-c8-Os2"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="242" id="jDi-PK-xXf"/>
                         </constraints>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="wpF-tf-Fd3" customClass="ITShortcutReader">
@@ -667,6 +668,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="WUp-Pl-bly"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="242" id="Z8Z-ef-cp4"/>
                         </constraints>
                     </customView>
                 </subviews>
