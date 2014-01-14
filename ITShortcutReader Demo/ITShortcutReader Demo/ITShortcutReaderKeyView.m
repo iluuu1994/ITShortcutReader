@@ -54,9 +54,9 @@
     [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
     _textField.layer.shadowOpacity = 0.3f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:0.f alpha:1.f].CGColor;
-    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
-    _textField.layer.shadowRadius = 0.f;
+    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
+    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 0.f };
+    _textField.layer.shadowRadius = 1.f;
     
     return self;
 }
