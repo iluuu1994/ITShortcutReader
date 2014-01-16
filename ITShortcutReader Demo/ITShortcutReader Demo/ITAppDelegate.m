@@ -12,7 +12,24 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    self.shortcutReader1.keyCode = 36;
+    self.shortcutReader1.modifierFlags = 1048840;
+}
+
+- (BOOL)shortcutReader:(ITShortcutReader *)shortcutReader
+      shouldRegisterKeyCode:(NSUInteger)keyCode
+              modifierFlags:(NSUInteger)modifierFlags
+{
+    NSLog(@"%@", shortcutReader.identifier);
+    
+    int flags = 0;
+    
+    if (modifierFlags & NSControlKeyMask) flags++;
+    if (modifierFlags & NSAlternateKeyMask) flags++;
+    if (modifierFlags & NSShiftKeyMask) flags++;
+    if (modifierFlags & NSCommandKeyMask) flags++;
+    
+    return (modifierFlags > 0);
 }
 
 @end

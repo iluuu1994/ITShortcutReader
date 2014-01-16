@@ -15,9 +15,9 @@
 @class ITShortcutReader;
 
 @protocol ITShortcutReaderDelegate <NSObject>
-- (NSError *)shortcutReader:(ITShortcutReader *)shortcutReader
-      shouldRegisterKeyCode:(NSUInteger)keyCode
-              modifierFlags:(NSUInteger)modifierFlags;
+- (BOOL)shortcutReader:(ITShortcutReader *)shortcutReader
+ shouldRegisterKeyCode:(NSUInteger)keyCode
+         modifierFlags:(NSUInteger)modifierFlags;
 @end
 
 
@@ -25,5 +25,10 @@
 #pragma mark - Interface
 
 @interface ITShortcutReader : NSView
+
+@property (nonatomic) NSUInteger modifierFlags;
+@property (nonatomic) NSUInteger keyCode;
+
 @property (weak) IBOutlet id<ITShortcutReaderDelegate> delegate;
+
 @end

@@ -42,13 +42,12 @@
 
 // The keyCode/modifierFlags that will be displayed if there is no input
 @property NSEventType eventType;
-@property NSUInteger modifierFlags;
-@property NSUInteger keyCode;
 
 // The keyCode/modifierFlags that will be displayed if the user is entering stuff
 @property NSEventType inputEventType;
 @property NSUInteger inputModifierFlags;
 @property NSUInteger inputKeyCode;
+
 @end
 
 
@@ -58,13 +57,17 @@
 
 - (void)setUp
 {
-    // Init layers
+    // -----------------------------------
+    // ----------- Init layers -----------
+    // -----------------------------------
     self.wantsLayer = YES;
     _hostedLayer = [CALayer layer];
     _hostedLayer.delegate = self;
     self.layer = _hostedLayer;
     
-    // Init the NSTextFields
+    // -----------------------------------
+    // ------ Init the NSTextFields ------
+    // -----------------------------------
     NSRect labelRect = (NSRect){
         .size.width = NSWidth(self.frame) - (kTextFieldMargin * 2) - (16.f * 2),
         .size.height = kTextFieldHeight,
@@ -76,7 +79,6 @@
     [_labelWrapper setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin | NSViewMaxYMargin];
     [self addSubview:_labelWrapper];
     
-    // Init the NSTextFields
     int numberOfTextFields = 2;
     __strong NSTextField **textFields[2] = { &_inactiveLabel, &_activeLabel };
     for (int i = 0; i < numberOfTextFields; i++) {
@@ -106,7 +108,9 @@
     _activeLabel.alphaValue = 0.f;
     _inactiveLabel.stringValue = kInactiveStringValue;
     
-    // Init key views
+    // -----------------------------------
+    // ---------- Init KeyViews ----------
+    // -----------------------------------
     [self saveEvent:nil permanently:NO];
     [self saveEvent:nil permanently:YES];
     
@@ -147,20 +151,10 @@
     };
     [_keyViewWrapper addSubview:_keyCodeView];
     
-    // TODO: Move to updateLayer
-    NSImage *backgroundImage = [NSImage imageNamed:@"shortcutReader"];
-    _hostedLayer.contents = backgroundImage;
-    _hostedLayer.contentsCenter = (CGRect){
-        .origin.x = 4.f / backgroundImage.size.width,
-        .origin.y = 6.f / backgroundImage.size.height,
-        .size.width = 14.f / backgroundImage.size.width,
-        .size.height = 12.f / backgroundImage.size.height
-    };
-    if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)]) {
-        _hostedLayer.contentsScale = [NSScreen mainScreen].backingScaleFactor;
-    }
     
-    // Cancel Button
+    // -----------------------------------
+    // ---------- Cancel Button ----------
+    // -----------------------------------
     _cancelButton = [[NSButton alloc] initWithFrame:(NSRect){
         .origin.x = NSWidth(self.frame) - 32.f,
         .origin.y = NSHeight(self.frame)/2 - 16.f/2,
@@ -176,6 +170,22 @@
     [_cancelButton setTarget:self];
     [_cancelButton setAction:@selector(cancel:)];
     [self addSubview:_cancelButton];
+    
+    
+    
+    // TODO: Move to `updateLayer` method
+    NSImage *backgroundImage = [NSImage imageNamed:@"shortcutReader"];
+    _hostedLayer.contents = backgroundImage;
+    _hostedLayer.contentsCenter = (CGRect){
+        .origin.x = 4.f / backgroundImage.size.width,
+        .origin.y = 6.f / backgroundImage.size.height,
+        .size.width = 14.f / backgroundImage.size.width,
+        .size.height = 12.f / backgroundImage.size.height
+    };
+    
+    if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)]) {
+        _hostedLayer.contentsScale = [NSScreen mainScreen].backingScaleFactor;
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -264,11 +274,28 @@
 
 - (void)keyDown:(NSEvent *)theEvent {
     [self endTypeActionWithEvent:theEvent];
-    [self updateKeyViews:theEvent fromInput:YES];
 }
 
 - (void)endTypeActionWithEvent:(NSEvent *)event {
-    [self saveEvent:event permanently:YES];
+    if ([self.delegate shortcutReader:self
+                shouldRegisterKeyCode:self.inputKeyCode
+                        modifierFlags:self.inputModifierFlags])
+    {
+        [self saveEvent:event permanently:YES];
+        [self updateKeyViews:event fromInput:YES];
+    }
+    else {
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Oops."
+                                         defaultButton:@"Got it"
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:@"This shortcut is already used by another application. \
+                                                         Please use a different one."];
+        [alert runModal];
+        
+        [self saveEvent:nil permanently:NO];
+        [self updateKeyViews:event fromInput:YES];
+    }
     
     // Resign the first responder
     [self.window makeFirstResponder:nil];
@@ -278,8 +305,8 @@
     if (!event) {
         if (permanently) {
             self.eventType = 0;
-            self.keyCode = NSNotFound;
-            self.modifierFlags = 0;
+            _keyCode = NSNotFound;
+            _modifierFlags = 0;
         } else {
             self.inputEventType = 0;
             self.inputKeyCode = NSNotFound;
@@ -287,9 +314,12 @@
         }
     } else {
         if (permanently) {
+            NSLog(@"%lu", (unsigned long)event.keyCode);
+            NSLog(@"%lu", (unsigned long)event.modifierFlags);
+            
             self.eventType = event.type;
-            self.keyCode = event.keyCode;
-            self.modifierFlags = event.modifierFlags;
+            _keyCode = event.keyCode;
+            _modifierFlags = event.modifierFlags;
         } else {
             self.inputEventType = event.type;
             self.inputKeyCode = event.keyCode;
@@ -341,7 +371,6 @@
         self.keyCodeView.frame = keyCodeFrame;
     }
     
-    
     [NSAnimationContext beginGrouping];
     {
         for (ITShortcutReaderKeyView *keyView in @[ self.controlKeyView, self.altKeyView, self.shiftKeyView, self.commandKeyView, self.keyCodeView ]) {
@@ -361,6 +390,30 @@
     }
     [NSAnimationContext endGrouping];
 }
+
+
+#pragma mark - Others
+
+- (void)setKeyCode:(NSUInteger)keyCode {
+    [self willChangeValueForKey:@"keyCode"];
+    {
+        _keyCode = keyCode;
+    }
+    [self didChangeValueForKey:@"keyCode"];
+    
+    [self updateKeyViews:nil fromInput:NO];
+}
+
+- (void)setModifierFlags:(NSUInteger)modifierFlags {
+    [self willChangeValueForKey:@"modifierFlags"];
+    {
+        _modifierFlags = modifierFlags;
+    }
+    [self didChangeValueForKey:@"modifierFlags"];
+    
+    [self updateKeyViews:nil fromInput:NO];
+}
+
 
 
 
