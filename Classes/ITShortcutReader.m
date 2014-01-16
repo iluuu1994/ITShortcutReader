@@ -22,7 +22,9 @@
 
 
 @interface ITShortcutReader ()
+
 @property (strong, readonly) CALayer *hostedLayer;
+@property (readonly) BOOL hasFirstResponder;
 
 // Cancel button
 @property (strong) NSButton *cancelButton;
@@ -40,11 +42,7 @@
 @property (strong) ITShortcutReaderKeyView *commandKeyView;
 @property (strong) ITShortcutReaderKeyView *keyCodeView;
 
-// The keyCode/modifierFlags that will be displayed if there is no input
-@property NSEventType eventType;
-
 // The keyCode/modifierFlags that will be displayed if the user is entering stuff
-@property NSEventType inputEventType;
 @property NSUInteger inputModifierFlags;
 @property NSUInteger inputKeyCode;
 
@@ -136,7 +134,7 @@
         (*keyView) = [[ITShortcutReaderKeyView alloc] initWithFrame:frame];
         (*keyView).stringValue = ITStringForKeyMask(modifierFlag);
         (*keyView).alphaValue = 0.f;
-        (*keyView).evaluationBlock = ^BOOL(NSEventType eventType, NSUInteger keyCode, NSUInteger modifierFlags) {
+        (*keyView).evaluationBlock = ^BOOL(NSUInteger keyCode, NSUInteger modifierFlags) {
             return (modifierFlags & modifierFlag) != 0;
         };
         
@@ -146,8 +144,8 @@
     frame.size.width = 50.f;
     _keyCodeView = [[ITShortcutReaderKeyView alloc] initWithFrame:frame];
     _keyCodeView.alphaValue = 0.f;
-    _keyCodeView.evaluationBlock = ^BOOL(NSEventType eventType, NSUInteger keyCode, NSUInteger modifierFlags) {
-        return (eventType != NSKeyUp) && (ITStringForKeyCode(keyCode).length != 0);
+    _keyCodeView.evaluationBlock = ^BOOL(NSUInteger keyCode, NSUInteger modifierFlags) {
+        return (ITStringForKeyCode(keyCode).length != 0);
     };
     [_keyViewWrapper addSubview:_keyCodeView];
     
@@ -170,7 +168,6 @@
     [_cancelButton setTarget:self];
     [_cancelButton setAction:@selector(cancel:)];
     [self addSubview:_cancelButton];
-    
     
     
     // TODO: Move to `updateLayer` method
@@ -227,62 +224,36 @@
 }
 
 - (BOOL)becomeFirstResponder {
-    // Overwrites the current user input
-    [self updateKeyViews:nil fromInput:YES];
-    [self shortcutReaderDidBecomeActive];
+    _hasFirstResponder = YES;
+    
+    [self updateKeyViews];
     
     return YES;
 }
 
 - (BOOL)resignFirstResponder {
-    // Overwrites the current user input
-    [self updateKeyViews:nil fromInput:NO];
-    [self shortcutReaderDidBecomeInactive];
+    _hasFirstResponder = NO;
+    
+    [self updateKeyViews];
     
     return YES;
 }
 
-- (void)shortcutReaderDidBecomeActive {
-    [NSAnimationContext beginGrouping];
-    {
-        [NSAnimationContext currentContext].duration = 0.2f;
-        
-        self.inactiveLabel.animator.alphaValue = 0.f;
-        self.activeLabel.animator.alphaValue = 1.f;
-        
-        self.cancelButton.animator.alphaValue = 1.f;
-    }
-    [NSAnimationContext endGrouping];
-}
-
-- (void)shortcutReaderDidBecomeInactive {
-    [NSAnimationContext beginGrouping];
-    {
-        [NSAnimationContext currentContext].duration = 0.2f;
-        
-        self.inactiveLabel.animator.alphaValue = 1.f;
-        self.activeLabel.animator.alphaValue = 0.f;
-        
-        self.cancelButton.animator.alphaValue = (self.keyCode != NSNotFound)?1.f:0.f;
-    }
-    [NSAnimationContext endGrouping];
-}
-
-- (BOOL)hasFirstResponder {
-    return (self.window.firstResponder == self);
-}
-
 - (void)keyDown:(NSEvent *)theEvent {
-    [self endTypeActionWithEvent:theEvent];
-}
-
-- (void)endTypeActionWithEvent:(NSEvent *)event {
+    NSLog(@"%ld", [theEvent modifierFlags]);
+    
     if ([self.delegate shortcutReader:self
                 shouldRegisterKeyCode:self.inputKeyCode
                         modifierFlags:self.inputModifierFlags])
     {
-        [self saveEvent:event permanently:YES];
-        [self updateKeyViews:event fromInput:YES];
+        // Save the new shortcut data
+        [self saveEvent:theEvent permanently:YES];
+        
+        // Discard the input data
+        [self saveEvent:nil permanently:NO];
+        
+        // Resign the first responder
+        [self.window makeFirstResponder:nil];
     }
     else {
         NSAlert *alert = [NSAlert alertWithMessageText:@"Oops."
@@ -290,40 +261,32 @@
                                        alternateButton:nil
                                            otherButton:nil
                              informativeTextWithFormat:@"This shortcut is already used by another application. \
-                                                         Please use a different one."];
+                          Please use a different one."];
         [alert runModal];
         
+        // Discard the invalid shortcut data
         [self saveEvent:nil permanently:NO];
-        [self updateKeyViews:event fromInput:YES];
     }
     
-    // Resign the first responder
-    [self.window makeFirstResponder:nil];
+    [self updateKeyViews];
 }
 
 - (void)saveEvent:(NSEvent *)event permanently:(BOOL)permanently {
     if (!event) {
         if (permanently) {
-            self.eventType = 0;
             _keyCode = NSNotFound;
             _modifierFlags = 0;
         } else {
-            self.inputEventType = 0;
-            self.inputKeyCode = NSNotFound;
-            self.inputModifierFlags = 0;
+            _inputKeyCode = NSNotFound;
+            _inputModifierFlags = 0;
         }
     } else {
         if (permanently) {
-            NSLog(@"%lu", (unsigned long)event.keyCode);
-            NSLog(@"%lu", (unsigned long)event.modifierFlags);
-            
-            self.eventType = event.type;
             _keyCode = event.keyCode;
             _modifierFlags = event.modifierFlags;
         } else {
-            self.inputEventType = event.type;
-            self.inputKeyCode = event.keyCode;
-            self.inputModifierFlags = event.modifierFlags;
+            _inputKeyCode = event.keyCode;
+            _inputModifierFlags = event.modifierFlags;
         }
     }
 }
@@ -345,20 +308,17 @@
 
 - (void)flagsChanged:(NSEvent *)event
 {
-    [self updateKeyViews:event fromInput:YES];
+    [self saveEvent:event permanently:NO];
+    [self updateKeyViews];
 }
 
-- (void)updateKeyViews:(NSEvent *)event fromInput:(BOOL)fromInput {
+- (void)updateKeyViews {
     int x = kKeyViewMargin;
     int count = 0;
     
-    // Save the current input
-    [self saveEvent:event permanently:NO];
-    
     // Which input to use
-    NSEventType eventType = (fromInput)?self.inputEventType:self.eventType;
-    NSUInteger keyCode = (fromInput)?self.inputKeyCode:self.keyCode;
-    NSEventType modifierFlags = (fromInput)?self.inputModifierFlags:self.modifierFlags;
+    NSUInteger keyCode = (self.hasFirstResponder)?_inputKeyCode:self.keyCode;
+    NSEventType modifierFlags = (self.hasFirstResponder)?_inputModifierFlags:self.modifierFlags;
     
     // Update the keyCode string
     self.keyCodeView.stringValue = ITStringForKeyCode(keyCode);
@@ -373,8 +333,9 @@
     
     [NSAnimationContext beginGrouping];
     {
+        // Animate keys
         for (ITShortcutReaderKeyView *keyView in @[ self.controlKeyView, self.altKeyView, self.shiftKeyView, self.commandKeyView, self.keyCodeView ]) {
-            if ([keyView evaluateWithType:eventType keyCode:keyCode modifierFlags:modifierFlags]) {
+            if ([keyView evaluateWithKeyCode:keyCode modifierFlags:modifierFlags]) {
                 keyView.animator.alphaValue = 1.f;
                 keyView.animator.frame = (NSRect){ .size = keyView.frame.size, .origin.y = keyView.frame.origin.y, .origin.x = x };
                 x += keyView.bounds.size.width + kKeyViewMargin;
@@ -386,7 +347,13 @@
             }
         }
         
+        // Animate labels
         self.labelWrapper.animator.alphaValue = (count > 0)?0.f:1.f;
+        self.inactiveLabel.animator.alphaValue = (!self.hasFirstResponder)?1.f:0.f;
+        self.activeLabel.animator.alphaValue = (self.hasFirstResponder)?1.f:0.f;
+        
+        // Animate cancel button
+        self.cancelButton.animator.alphaValue = (!self.hasFirstResponder && count == 0)?0.f:1.f;
     }
     [NSAnimationContext endGrouping];
 }
@@ -401,7 +368,7 @@
     }
     [self didChangeValueForKey:@"keyCode"];
     
-    [self updateKeyViews:nil fromInput:NO];
+    [self updateKeyViews];
 }
 
 - (void)setModifierFlags:(NSUInteger)modifierFlags {
@@ -411,7 +378,7 @@
     }
     [self didChangeValueForKey:@"modifierFlags"];
     
-    [self updateKeyViews:nil fromInput:NO];
+    [self updateKeyViews];
 }
 
 
@@ -424,10 +391,10 @@
         [self.window makeFirstResponder:nil];
     } else {
         [self saveEvent:nil permanently:YES];
-        [self shortcutReaderDidBecomeInactive];
+        [self updateKeyViews];
     }
     
-    [self updateKeyViews:nil fromInput:NO];
+    [self updateKeyViews];
 }
 
 // The NSTextField can block the triggering of mouseDown:.

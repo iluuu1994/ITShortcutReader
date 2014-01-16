@@ -8,14 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef BOOL(^ITKeyEvaluationBlock)(NSEventType eventType, NSUInteger keyCode, NSUInteger modifierFlags);
+typedef BOOL(^ITKeyEvaluationBlock)(NSUInteger keyCode, NSUInteger modifierFlags);
 
 @interface ITShortcutReaderKeyView : NSView
 @property (strong) CALayer *hostedLayer;
 @property (nonatomic) NSString *stringValue;
 @property (nonatomic) NSTextField *textField;
 @property (strong) ITKeyEvaluationBlock evaluationBlock;
-- (BOOL)evaluateWithType:(NSEventType)eventType
-                 keyCode:(NSUInteger)keyCode
-           modifierFlags:(NSUInteger)modifierFlags;
+- (BOOL)evaluateWithKeyCode:(NSUInteger)keyCode
+              modifierFlags:(NSUInteger)modifierFlags;
 @end
