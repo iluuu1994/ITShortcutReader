@@ -37,8 +37,8 @@
     // TextFields
     NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 16.f);
     _textField = [[NSTextField alloc] initWithFrame:(NSRect){
-        .origin.x =  (NSWidth(self.bounds)/2) - (textFieldSize.width/2),
-        .origin.y =  (NSHeight(self.bounds)/2)- (textFieldSize.height/2),
+        .origin.x =  (NSWidth(self.bounds) / 2.f) - (textFieldSize.width / 2.f),
+        .origin.y =  (NSHeight(self.bounds) / 2.f)- (textFieldSize.height / 2.f),
         .size = textFieldSize
     }];
     
@@ -53,10 +53,10 @@
     [_textField setTextColor:[NSColor colorWithDeviceWhite:0.9f alpha:1.f]];
     [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
-    _textField.layer.shadowOpacity = 0.3f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
-    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 0.f };
-    _textField.layer.shadowRadius = 1.f;
+    _textField.layer.shadowOpacity = 0.2f;
+    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:0.f alpha:1.f].CGColor;
+    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
+    _textField.layer.shadowRadius = 0.f;
     
     return self;
 }

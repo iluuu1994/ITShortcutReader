@@ -240,8 +240,6 @@
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
-    NSLog(@"%ld", [theEvent modifierFlags]);
-    
     if ([self.delegate shortcutReader:self
                 shouldRegisterKeyCode:self.inputKeyCode
                         modifierFlags:self.inputModifierFlags])
