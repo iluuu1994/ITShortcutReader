@@ -7,14 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MASShortcut.h"
 
-typedef BOOL(^ITKeyEvaluationBlock)(NSUInteger keyCode, NSUInteger modifierFlags);
+typedef BOOL(^ITKeyEvaluationBlock)(MASShortcut *shortcutValue);
 
 @interface ITShortcutReaderKeyView : NSView
 @property (strong) CALayer *hostedLayer;
 @property (nonatomic) NSString *stringValue;
 @property (nonatomic) NSTextField *textField;
 @property (strong) ITKeyEvaluationBlock evaluationBlock;
-- (BOOL)evaluateWithKeyCode:(NSUInteger)keyCode
-              modifierFlags:(NSUInteger)modifierFlags;
+- (BOOL)evaluateWithShortcut:(MASShortcut *)shortcut;
 @end

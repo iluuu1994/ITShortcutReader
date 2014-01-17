@@ -12,22 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.shortcutReader1.keyCode = 36;
-    self.shortcutReader1.modifierFlags = 1048840;
-}
-
-- (BOOL)shortcutReader:(ITShortcutReader *)shortcutReader
-      shouldRegisterKeyCode:(NSUInteger)keyCode
-              modifierFlags:(NSUInteger)modifierFlags
-{
-    int flags = 0;
-    
-    if (modifierFlags & NSControlKeyMask) flags++;
-    if (modifierFlags & NSAlternateKeyMask) flags++;
-    if (modifierFlags & NSShiftKeyMask) flags++;
-    if (modifierFlags & NSCommandKeyMask) flags++;
-    
-    return (flags > 0);
+    self.shortcutReader1.shortcutValue = [MASShortcut shortcutWithKeyCode:36 modifierFlags:1048840];
 }
 
 @end

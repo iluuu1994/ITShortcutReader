@@ -8,7 +8,6 @@
 
 #import "ITShortcutReader.h"
 #import "ITShortcutReaderKeyView.h"
-#import "MASShortcut.h"
 
 #define kTextColor [NSColor colorWithDeviceWhite:0.55f alpha:1.f]
 #define kFontSize 14.f
@@ -43,8 +42,7 @@
 @property (strong) ITShortcutReaderKeyView *keyCodeView;
 
 // The keyCode/modifierFlags that will be displayed if the user is entering stuff
-@property NSUInteger inputModifierFlags;
-@property NSUInteger inputKeyCode;
+@property MASShortcut *inputShortcutValue;
 
 @end
 
@@ -132,10 +130,14 @@
         NSUInteger modifierFlag = modifierFlags[i];
         
         (*keyView) = [[ITShortcutReaderKeyView alloc] initWithFrame:frame];
-        (*keyView).stringValue = ITStringForKeyMask(modifierFlag);
+        
+        // TODO: This is a very quick solution, make this better :P
+        MASShortcut *shortcut = [MASShortcut shortcutWithKeyCode:0 modifierFlags:modifierFlag];
+        
+        (*keyView).stringValue = shortcut.modifierFlagsString;
         (*keyView).alphaValue = 0.f;
-        (*keyView).evaluationBlock = ^BOOL(NSUInteger keyCode, NSUInteger modifierFlags) {
-            return (modifierFlags & modifierFlag) != 0;
+        (*keyView).evaluationBlock = ^BOOL(MASShortcut *shortcut) {
+            return (shortcut.modifierFlags & modifierFlag) != 0;
         };
         
         [_keyViewWrapper addSubview:*keyView];
@@ -144,8 +146,8 @@
     frame.size.width = 50.f;
     _keyCodeView = [[ITShortcutReaderKeyView alloc] initWithFrame:frame];
     _keyCodeView.alphaValue = 0.f;
-    _keyCodeView.evaluationBlock = ^BOOL(NSUInteger keyCode, NSUInteger modifierFlags) {
-        return (ITStringForKeyCode(keyCode).length != 0);
+    _keyCodeView.evaluationBlock = ^BOOL(MASShortcut *shortcut) {
+        return (shortcut.keyCodeString.length != 0);
     };
     [_keyViewWrapper addSubview:_keyCodeView];
     
@@ -226,6 +228,7 @@
 - (BOOL)becomeFirstResponder {
     _hasFirstResponder = YES;
     
+    [self saveEvent:nil permanently:NO];
     [self updateKeyViews];
     
     return YES;
@@ -234,33 +237,42 @@
 - (BOOL)resignFirstResponder {
     _hasFirstResponder = NO;
     
+    [self saveEvent:nil permanently:NO];
     [self updateKeyViews];
     
     return YES;
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
-    if ([self.delegate shortcutReader:self
-                shouldRegisterKeyCode:self.inputKeyCode
-                        modifierFlags:self.inputModifierFlags])
+    MASShortcut *shortcut = [MASShortcut shortcutWithEvent:theEvent];
+    
+    if (shortcut.isValid)
     {
-        // Save the new shortcut data
-        [self saveEvent:theEvent permanently:YES];
-        
-        // Discard the input data
-        [self saveEvent:nil permanently:NO];
-        
-        // Resign the first responder
-        [self.window makeFirstResponder:nil];
+        // Verify that shortcut is not used
+        NSError *error = nil;
+        if (![shortcut isTakenError:&error])
+        {
+            // Save the new shortcut data
+            [self saveEvent:theEvent permanently:YES];
+            
+            // Discard the input data
+            [self saveEvent:nil permanently:NO];
+            
+            // Resign the first responder
+            [self.window makeFirstResponder:nil];
+        } else {
+            NSString *format = NSLocalizedString(@"The key combination %@ cannot be used",
+                                                 @"Title for alert when shortcut is already used");
+            NSRunCriticalAlertPanel([NSString stringWithFormat:format, shortcut], error.localizedDescription,
+                                    NSLocalizedString(@"OK", @"Alert button when shortcut is already used"),
+                                    nil, nil);
+            
+            // Discard the invalid shortcut data
+            [self saveEvent:nil permanently:NO];
+        }
     }
     else {
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Oops."
-                                         defaultButton:@"Got it"
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:@"This shortcut is already used by another application. \
-                          Please use a different one."];
-        [alert runModal];
+        NSBeep();
         
         // Discard the invalid shortcut data
         [self saveEvent:nil permanently:NO];
@@ -272,19 +284,17 @@
 - (void)saveEvent:(NSEvent *)event permanently:(BOOL)permanently {
     if (!event) {
         if (permanently) {
-            _keyCode = NSNotFound;
-            _modifierFlags = 0;
+            _shortcutValue = [MASShortcut new];
+            _shortcutValue.keyCode = NSNotFound;
         } else {
-            _inputKeyCode = NSNotFound;
-            _inputModifierFlags = 0;
+            _inputShortcutValue = [MASShortcut new];
+            _inputShortcutValue.keyCode = NSNotFound;
         }
     } else {
         if (permanently) {
-            _keyCode = event.keyCode;
-            _modifierFlags = event.modifierFlags;
+            _shortcutValue = [MASShortcut shortcutWithEvent:event];
         } else {
-            _inputKeyCode = event.keyCode;
-            _inputModifierFlags = event.modifierFlags;
+            _inputShortcutValue = [MASShortcut shortcutWithEvent:event];
         }
     }
 }
@@ -315,11 +325,10 @@
     int count = 0;
     
     // Which input to use
-    NSUInteger keyCode = (self.hasFirstResponder)?_inputKeyCode:self.keyCode;
-    NSEventType modifierFlags = (self.hasFirstResponder)?_inputModifierFlags:self.modifierFlags;
+    MASShortcut *shortcut = (self.hasFirstResponder)?_inputShortcutValue:_shortcutValue;
     
     // Update the keyCode string
-    self.keyCodeView.stringValue = ITStringForKeyCode(keyCode);
+    self.keyCodeView.stringValue = shortcut.keyCodeString;
     
     // Avoid resizing when clearing the current input
     if (self.keyCodeView.stringValue.length) {
@@ -333,7 +342,7 @@
     {
         // Animate keys
         for (ITShortcutReaderKeyView *keyView in @[ self.controlKeyView, self.altKeyView, self.shiftKeyView, self.commandKeyView, self.keyCodeView ]) {
-            if ([keyView evaluateWithKeyCode:keyCode modifierFlags:modifierFlags]) {
+            if ([keyView evaluateWithShortcut:shortcut]) {
                 keyView.animator.alphaValue = 1.f;
                 keyView.animator.frame = (NSRect){ .size = keyView.frame.size, .origin.y = keyView.frame.origin.y, .origin.x = x };
                 x += keyView.bounds.size.width + kKeyViewMargin;
@@ -357,28 +366,18 @@
 }
 
 
-#pragma mark - Others
 
-- (void)setKeyCode:(NSUInteger)keyCode {
-    [self willChangeValueForKey:@"keyCode"];
+#pragma mark - Accessors
+
+- (void)setShortcutValue:(MASShortcut *)shortcutValue {
+    [self willChangeValueForKey:@"shortcutValue"];
     {
-        _keyCode = keyCode;
+        _shortcutValue = shortcutValue;
     }
-    [self didChangeValueForKey:@"keyCode"];
+    [self didChangeValueForKey:@"shortcutValue"];
     
     [self updateKeyViews];
 }
-
-- (void)setModifierFlags:(NSUInteger)modifierFlags {
-    [self willChangeValueForKey:@"modifierFlags"];
-    {
-        _modifierFlags = modifierFlags;
-    }
-    [self didChangeValueForKey:@"modifierFlags"];
-    
-    [self updateKeyViews];
-}
-
 
 
 

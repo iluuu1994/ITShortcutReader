@@ -69,8 +69,8 @@
     self.textField.stringValue = stringValue;
 }
 
-- (BOOL)evaluateWithKeyCode:(NSUInteger)keyCode modifierFlags:(NSUInteger)modifierFlags {
-    if (self.evaluationBlock) return self.evaluationBlock(keyCode, modifierFlags);
+- (BOOL)evaluateWithShortcut:(MASShortcut *)shortcut {
+    if (self.evaluationBlock) return self.evaluationBlock(shortcut);
     
     return NO;
 }

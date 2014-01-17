@@ -7,28 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-
-#pragma mark - Protocol
-
-// Forward declaration
-@class ITShortcutReader;
-
-@protocol ITShortcutReaderDelegate <NSObject>
-- (BOOL)shortcutReader:(ITShortcutReader *)shortcutReader
- shouldRegisterKeyCode:(NSUInteger)keyCode
-         modifierFlags:(NSUInteger)modifierFlags;
-@end
-
+#import "MASShortcut.h"
 
 
 #pragma mark - Interface
 
 @interface ITShortcutReader : NSView
 
-@property (nonatomic) NSUInteger modifierFlags;
-@property (nonatomic) NSUInteger keyCode;
-
-@property (weak) IBOutlet id<ITShortcutReaderDelegate> delegate;
+/// @property shortcutValue - The shortcut currently saved
+@property (nonatomic) MASShortcut *shortcutValue;
 
 @end

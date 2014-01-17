@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ITShortcutReader.h"
 
-@interface ITAppDelegate : NSObject <NSApplicationDelegate, ITShortcutReaderDelegate>
+@interface ITAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet ITShortcutReader *shortcutReader1;
