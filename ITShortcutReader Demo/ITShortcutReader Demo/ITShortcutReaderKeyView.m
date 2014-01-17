@@ -35,7 +35,7 @@
     
     
     // TextFields
-    NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 16.f);
+    NSSize textFieldSize = NSMakeSize(NSWidth(self.bounds), 18.f);
     _textField = [[NSTextField alloc] initWithFrame:(NSRect){
         .origin.x =  (NSWidth(self.bounds) / 2.f) - (textFieldSize.width / 2.f),
         .origin.y =  (NSHeight(self.bounds) / 2.f)- (textFieldSize.height / 2.f),
@@ -50,12 +50,16 @@
     [_textField setEditable:NO];
     [_textField setBezeled:NO];
     [_textField setDrawsBackground:NO];
-    [_textField setTextColor:[NSColor colorWithDeviceWhite:1.f alpha:1.f]];
+    [_textField setTextColor:[NSColor colorWithCalibratedRed:0.45f green:0.45f blue:0.45f alpha:1]];
     [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
-    _textField.layer.shadowOpacity = 0.3f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:0.1f alpha:1.f].CGColor;
-    _textField.layer.shadowOffset = (NSSize){ .width = -1.f, .height = -1.f };
+//    NSFont *font = _textField.font;
+//    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+//    _textField.font = [fontManager convertWeight:YES ofFont:font];
+    
+    _textField.layer.shadowOpacity = 1.f;
+    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:1.f alpha:1.f].CGColor;
+    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
     _textField.layer.shadowRadius = 0.f;
     
     return self;
