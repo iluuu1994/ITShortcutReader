@@ -50,12 +50,12 @@
     [_textField setEditable:NO];
     [_textField setBezeled:NO];
     [_textField setDrawsBackground:NO];
-    [_textField setTextColor:[NSColor colorWithDeviceWhite:0.9f alpha:1.f]];
+    [_textField setTextColor:[NSColor colorWithDeviceWhite:1.f alpha:1.f]];
     [_textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
-    _textField.layer.shadowOpacity = 0.2f;
-    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:0.f alpha:1.f].CGColor;
-    _textField.layer.shadowOffset = (NSSize){ .width = 0.f, .height = 1.f };
+    _textField.layer.shadowOpacity = 0.3f;
+    _textField.layer.shadowColor = [NSColor colorWithDeviceWhite:0.1f alpha:1.f].CGColor;
+    _textField.layer.shadowOffset = (NSSize){ .width = -1.f, .height = -1.f };
     _textField.layer.shadowRadius = 0.f;
     
     return self;
